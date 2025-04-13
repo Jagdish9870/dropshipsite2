@@ -14,10 +14,10 @@ const About = () => {
       <div className='my-10 flex flex-col md:flex-row gap-16'>
           <img className='w-full md:max-w-[450px]' src={assets.about_img} alt="" />
           <div className='flex flex-col justify-center gap-6 md:w-2/4 text-gray-600'>
-              <p>Forever was born out of a passion for innovation and a desire to revolutionize the way people shop online. Our journey began with a simple idea: to provide a platform where customers can easily discover, explore, and purchase a wide range of products from the comfort of their homes.</p>
-              <p>Since our inception, we've worked tirelessly to curate a diverse selection of high-quality products that cater to every taste and preference. From fashion and beauty to electronics and home essentials, we offer an extensive collection sourced from trusted brands and suppliers.</p>
+              <p>Wills Thrills was born out of a passion for innovation and a vision to redefine the way people explore and experience electronic products online. Our journey began with a clear goal: to create a platform where technology enthusiasts can effortlessly discover, compare, and purchase the latest gadgets and devices—all in one place..</p>
+              <p>Since day one, we’ve been committed to curating a dynamic selection of cutting-edge electronics that cater to every need and lifestyle. From smart home solutions and mobile accessories to wearables and entertainment systems, our collection features high-quality products sourced from trusted global brands and emerging tech innovators..</p>
               <b className='text-gray-800'>Our Mission</b>
-              <p>Our mission at Forever is to empower customers with choice, convenience, and confidence. We're dedicated to providing a seamless shopping experience that exceeds expectations, from browsing and ordering to delivery and beyond.</p>
+              <p>At Wills Thrills, our mission is to empower customers with access to the newest technology, paired with the convenience and confidence of a seamless shopping experience. We're dedicated to making the world of electronics more accessible, enjoyable, and future-forward—from your first click to the moment your device arrives.</p>
           </div>
       </div>
 
