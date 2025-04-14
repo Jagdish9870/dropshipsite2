@@ -12,7 +12,7 @@ const About = () => {
       </div>
 
       <div className='my-10 flex flex-col md:flex-row gap-16'>
-          <img className='w-full md:max-w-[450px]' src={assets.about_img} alt="" />
+          <img className='w-full md:max-w-[450px]' src={assets.about} alt="" />
           <div className='flex flex-col justify-center gap-6 md:w-2/4 text-gray-600'>
               <p>Wills Thrills was born out of a passion for innovation and a vision to redefine the way people explore and experience electronic products online. Our journey began with a clear goal: to create a platform where technology enthusiasts can effortlessly discover, compare, and purchase the latest gadgets and devices—all in one place..</p>
               <p>Since day one, we’ve been committed to curating a dynamic selection of cutting-edge electronics that cater to every need and lifestyle. From smart home solutions and mobile accessories to wearables and entertainment systems, our collection features high-quality products sourced from trusted global brands and emerging tech innovators..</p>
