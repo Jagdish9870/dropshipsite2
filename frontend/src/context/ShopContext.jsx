@@ -7,8 +7,8 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
 
-    const currency = '$';
-    const delivery_fee = 10;
+    const currency = '₹';
+    const delivery_fee = 100;
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
@@ -18,33 +18,33 @@ const ShopContextProvider = (props) => {
     const navigate = useNavigate();
 
 
-    const addToCart = async (itemId, size) => {
+    const addToCart = async (itemId, color) => {
 
-        if (!size) {
-            toast.error('Select Product Size');
+        if (!color) {
+            toast.error('Select Product color');
             return;
         }
 
         let cartData = structuredClone(cartItems);
 
         if (cartData[itemId]) {
-            if (cartData[itemId][size]) {
-                cartData[itemId][size] += 1;
+            if (cartData[itemId][color]) {
+                cartData[itemId][color] += 1;
             }
             else {
-                cartData[itemId][size] = 1;
+                cartData[itemId][color] = 1;
             }
         }
         else {
             cartData[itemId] = {};
-            cartData[itemId][size] = 1;
+            cartData[itemId][color] = 1;
         }
         setCartItems(cartData);
 
         if (token) {
             try {
 
-                await axios.post(backendUrl + '/api/cart/add', { itemId, size }, { headers: { token } })
+                await axios.post(backendUrl + '/api/cart/add', { itemId, color }, { headers: { token } })
 
             } catch (error) {
                 console.log(error)
@@ -70,18 +70,18 @@ const ShopContextProvider = (props) => {
         return totalCount;
     }
 
-    const updateQuantity = async (itemId, size, quantity) => {
+    const updateQuantity = async (itemId, color, quantity) => {
 
         let cartData = structuredClone(cartItems);
 
-        cartData[itemId][size] = quantity;
+        cartData[itemId][color] = quantity;
 
         setCartItems(cartData)
 
         if (token) {
             try {
 
-                await axios.post(backendUrl + '/api/cart/update', { itemId, size, quantity }, { headers: { token } })
+                await axios.post(backendUrl + '/api/cart/update', { itemId, color, quantity }, { headers: { token } })
 
             } catch (error) {
                 console.log(error)

@@ -95,13 +95,13 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Men'} onChange={toggleCategory}/>  Consumer Electronics
+              <input className='w-3' type="checkbox" value={'Consumer Electronics'} onChange={toggleCategory}/>  Consumer Electronics
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Women'} onChange={toggleCategory}/>  Home Electronics / Appliances
+              <input className='w-3' type="checkbox" value={'Home Electronics Appliances'} onChange={toggleCategory}/>  Home Electronics Appliances
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Kids'} onChange={toggleCategory}/>  Automotive Electronics
+              <input className='w-3' type="checkbox" value={'Automotive Electronics'} onChange={toggleCategory}/>  Automotive Electronics
             </p>
           </div>
         </div>
@@ -110,13 +110,13 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>TYPE</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Topwear'} onChange={toggleSubCategory}/> Trending
+              <input className='w-3' type="checkbox" value={'Trending'} onChange={toggleSubCategory}/> Trending
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Bottomwear'} onChange={toggleSubCategory}/> Most bought
+              <input className='w-3' type="checkbox" value={'Most bought'} onChange={toggleSubCategory}/> Most bought
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Winterwear'} onChange={toggleSubCategory}/> Recent
+              <input className='w-3' type="checkbox" value={'Recent'} onChange={toggleSubCategory}/> Recent
             </p>
           </div>
         </div>
