@@ -4,10 +4,8 @@ import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 import { toast } from 'react-toastify';
-
-//change
 import { useNavigate, useLocation } from 'react-router-dom';
-//tillhere
+
 
 
 const Product = () => {
@@ -18,23 +16,45 @@ const Product = () => {
   const [image, setImage] = useState('')
   const [color,setColor] = useState('')
 
-  //changes
-  const navigate = useNavigate();
+  //change
+  const [isInCart, setIsInCart] = useState(false);
+
+
+const navigate = useNavigate();
 const location = useLocation();
+// const handleAddToCart = () => {
+//   const token = localStorage.getItem("token");
+
+//   if (!token) {
+//     // Not logged in – redirect to login and send current page info
+//     toast.info('Please login to continue');
+//     navigate('/login', { state: { from: location.pathname } });
+//     return;
+//   }
+
+//   // Logged in – allow add to cart
+//   addToCart(productData._id, color);
+// };
+
 const handleAddToCart = () => {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    // Not logged in – redirect to login and send current page info
     toast.info('Please login to continue');
     navigate('/login', { state: { from: location.pathname } });
     return;
   }
 
-  // Logged in – allow add to cart
-  addToCart(productData._id, color);
+  if (!isInCart) {
+    addToCart(productData._id, color);
+    setIsInCart(true);
+    toast.success("Added to cart!");
+  } else {
+    navigate('/cart');
+  }
 };
 //till here
+
 
   const fetchProductData = async () => {
 
@@ -48,9 +68,20 @@ const handleAddToCart = () => {
 
   }
 
+  // useEffect(() => {
+  //   fetchProductData();
+  // }, [productId,products])
+
   useEffect(() => {
     fetchProductData();
-  }, [productId,products])
+  
+    // Check if item is in cart
+    const cartData = cartItems[productId];
+    if (cartData && Object.keys(cartData).length > 0) {
+      setIsInCart(true);
+    }
+  }, [productId, products, cartItems]);
+  
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100'>
@@ -92,9 +123,14 @@ const handleAddToCart = () => {
                 ))}
               </div>
           </div>
-          
+
           {/* <button onClick={()=>addToCart(productData._id,color)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button> */}
-          <button onClick={handleAddToCart} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button>
+          {/* <button onClick={handleAddToCart} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>ADD TO CART</button> */}
+
+          <button onClick={handleAddToCart} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>
+          {isInCart ? 'GO TO CART' : 'ADD TO CART'}
+          </button>
+
 
 
           <hr className='mt-8 sm:w-4/5' />
