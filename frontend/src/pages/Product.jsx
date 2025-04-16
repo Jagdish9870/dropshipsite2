@@ -68,19 +68,19 @@ const handleAddToCart = () => {
 
   }
 
-  // useEffect(() => {
-  //   fetchProductData();
-  // }, [productId,products])
-
   useEffect(() => {
     fetchProductData();
+  }, [productId,products])
+
+  // useEffect(() => {
+  //   fetchProductData();
   
-    // Check if item is in cart
-    const cartData = cartItems[productId];
-    if (cartData && Object.keys(cartData).length > 0) {
-      setIsInCart(true);
-    }
-  }, [productId, products, cartItems]);
+  //   // Check if item is in cart
+  //   const cartData = cartItems[productId];
+  //   if (cartData && Object.keys(cartData).length > 0) {
+  //     setIsInCart(true);
+  //   }
+  // }, [productId, products, cartItems]);
   
 
   return productData ? (
