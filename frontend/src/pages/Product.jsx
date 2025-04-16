@@ -20,76 +20,42 @@
 //   const [isInCart, setIsInCart] = useState(false);
 
 
-// const navigate = useNavigate();
-// const location = useLocation();
-// // const handleAddToCart = () => {
-// //   const token = localStorage.getItem("token");
-
-// //   if (!token) {
-// //     // Not logged in – redirect to login and send current page info
-// //     toast.info('Please login to continue');
-// //     navigate('/login', { state: { from: location.pathname } });
-// //     return;
-// //   }
-
-// //   // Logged in – allow add to cart
-// //   addToCart(productData._id, color);
-// // };
-
+//const navigate = useNavigate();
+//const location = useLocation();
 // const handleAddToCart = () => {
 //   const token = localStorage.getItem("token");
 
 //   if (!token) {
+//     // Not logged in – redirect to login and send current page info
 //     toast.info('Please login to continue');
 //     navigate('/login', { state: { from: location.pathname } });
 //     return;
 //   }
 
-//   if (!isInCart) {
-//     addToCart(productData._id, color);
-//     setIsInCart(true);
-//     toast.success("Added to cart!");
-//   } else {
-//     navigate('/cart');
-//   }
-// };
-// //till here
-
-// const fetchProductData = () => {
-//   const foundProduct = products.find(item => item._id === productId);
-//   if (foundProduct) {
-//     setProductData(foundProduct);
-//     setImage(foundProduct.image[0]);
-//   }
+//   // Logged in – allow add to cart
+//   addToCart(productData._id, color);
 // };
 
 
 
-//   // const fetchProductData = async () => {
+  // const fetchProductData = async () => {
 
-//   //   products.map((item) => {
-//   //     if (item._id === productId) {
-//   //       setProductData(item)
-//   //       setImage(item.image[0])
-//   //       return null;
-//   //     }
-//   //   })
+  //   products.map((item) => {
+  //     if (item._id === productId) {
+  //       setProductData(item)
+  //       setImage(item.image[0])
+  //       return null;
+  //     }
+  //   })
 
-//   // }
+  // }
 
-//   // useEffect(() => {
-//   //   fetchProductData();
-//   // }, [productId,products])
+  // useEffect(() => {
+  //   fetchProductData();
+  // }, [productId,products])
 
   
-//   useEffect(() => {
-//     fetchProductData();
-  
-//     if (cartItems && cartItems[productId]) {
-//       const hasItem = Object.values(cartItems[productId]).some(qty => qty > 0);
-//       setIsInCart(hasItem);
-//     }
-//   }, [productId, products, cartItems]);
+
   
   
   
