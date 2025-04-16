@@ -206,7 +206,7 @@ const Orders = () => {
 
       <div>
         {orderData.map((item, index) => {
-          const unitPrice = item.discountedPrice || item.price;
+          const unitPrice = item.discountedPrice ;
           const total = unitPrice * item.quantity;
 
           return (
