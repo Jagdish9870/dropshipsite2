@@ -16,6 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import ReturnPolicy from './components/ReturnPolicy'
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/orders' element={<Orders />} />
         <Route path='/verify' element={<Verify />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/return-policy" element={<ReturnPolicy />} />
       </Routes>
       <Footer />
     </div>
