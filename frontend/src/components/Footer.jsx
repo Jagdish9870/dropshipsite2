@@ -8,12 +8,13 @@ const Footer = () => {
     <div>
       <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm'>
 
-      <div className="flex items-start gap-4 mb-5">
+      <div className="flex items-center gap-4 mb-5">
   <img src={assets.logo2} className="w-32" alt="logo" />
   <p className="text-gray-600 max-w-xl">
     Wills Thrills was born out of a passion for innovation and a vision to redefine the way people explore and experience electronic products online
   </p>
 </div>
+
 
 
         <div>
