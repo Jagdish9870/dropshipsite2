@@ -760,7 +760,7 @@ import userModel from "../models/userModel.js";
 import Stripe from 'stripe';
 
 const currency = 'inr';
-const deliveryCharge = 10;
+const deliveryCharge = 100;
 const discountRate = 0.2;
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
