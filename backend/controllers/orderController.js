@@ -579,23 +579,198 @@
 // export { verifyStripe, placeOrder, placeOrderStripe, allOrders, userOrders, updateStatus }
 
 
+// import orderModel from "../models/orderModel.js";
+// import userModel from "../models/userModel.js";
+// import Stripe from 'stripe';
+
+// // global variables
+// const currency = 'inr';
+// const deliveryCharge = 10;
+
+// // gateway initialize
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// // Placing orders using COD Method
+// const placeOrder = async (req, res) => {
+//   try {
+//     const { userId, items, amount, address } = req.body;
+
+//     const processedItems = items.map((item) => ({
+//       productId: item.productId,
+//       name: item.name,
+//       price: item.price,
+//       discountedPrice: item.discountedPrice || item.price,
+//       quantity: item.quantity,
+//       image: item.image,
+//       color: item.color
+//     }));
+
+//     const orderData = {
+//       userId,
+//       items: processedItems,
+//       address,
+//       amount,
+//       paymentMethod: "COD",
+//       payment: false,
+//       date: Date.now()
+//     };
+
+//     const newOrder = new orderModel(orderData);
+//     await newOrder.save();
+
+//     await userModel.findByIdAndUpdate(userId, { cartData: {} });
+
+//     res.json({ success: true, message: "Order Placed" });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // Placing orders using Stripe Method
+// const placeOrderStripe = async (req, res) => {
+//   try {
+//     const { userId, items, amount, address } = req.body;
+//     const { origin } = req.headers;
+
+//     const processedItems = items.map((item) => ({
+//       productId: item.productId,
+//       name: item.name,
+//       price: item.price,
+//       discountedPrice: item.discountedPrice || item.price,
+//       quantity: item.quantity,
+//       image: item.image,
+//       color: item.color
+//     }));
+
+//     const orderData = {
+//       userId,
+//       items: processedItems,
+//       address,
+//       amount,
+//       paymentMethod: "Stripe",
+//       payment: false,
+//       date: Date.now()
+//     };
+
+//     const newOrder = new orderModel(orderData);
+//     await newOrder.save();
+
+//     const line_items = processedItems.map((item) => ({
+//       price_data: {
+//         currency: currency,
+//         product_data: {
+//           name: item.name
+//         },
+//         unit_amount: item.discountedPrice * 100
+//       },
+//       quantity: item.quantity
+//     }));
+
+//     line_items.push({
+//       price_data: {
+//         currency: currency,
+//         product_data: {
+//           name: 'Delivery Charges'
+//         },
+//         unit_amount: deliveryCharge * 100
+//       },
+//       quantity: 1
+//     });
+
+//     const session = await stripe.checkout.sessions.create({
+//       success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
+//       cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
+//       line_items,
+//       mode: 'payment',
+//     });
+
+//     res.json({ success: true, session_url: session.url });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // Verify Stripe 
+// const verifyStripe = async (req, res) => {
+//   const { orderId, success, userId } = req.body;
+
+//   try {
+//     if (success === "true") {
+//       await orderModel.findByIdAndUpdate(orderId, { payment: true });
+//       await userModel.findByIdAndUpdate(userId, { cartData: {} });
+//       res.json({ success: true });
+//     } else {
+//       await orderModel.findByIdAndDelete(orderId);
+//       res.json({ success: false });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // All Orders data for Admin Panel
+// const allOrders = async (req, res) => {
+//   try {
+//     const orders = await orderModel.find({});
+//     res.json({ success: true, orders });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // User Order Data For Frontend
+// const userOrders = async (req, res) => {
+//   try {
+//     const { userId } = req.body;
+//     const orders = await orderModel.find({ userId });
+//     res.json({ success: true, orders });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // Update order status from Admin Panel
+// const updateStatus = async (req, res) => {
+//   try {
+//     const { orderId, status } = req.body;
+//     await orderModel.findByIdAndUpdate(orderId, { status });
+//     res.json({ success: true, message: 'Status Updated' });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// export {
+//   verifyStripe,
+//   placeOrder,
+//   placeOrderStripe,
+//   allOrders,
+//   userOrders,
+//   updateStatus
+// };
+
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from 'stripe';
 
-// global variables
 const currency = 'inr';
 const deliveryCharge = 10;
+const discountRate = 0.2;
 
-// gateway initialize
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Placing orders using COD Method
+// COD Order Placement
 const placeOrder = async (req, res) => {
   try {
-    const { userId, items, amount, address } = req.body;
+    const { userId, items, address } = req.body;
 
-    const processedItems = items.map((item) => ({
+    const processedItems = items.map(item => ({
       productId: item.productId,
       name: item.name,
       price: item.price,
@@ -605,11 +780,18 @@ const placeOrder = async (req, res) => {
       color: item.color
     }));
 
+    const subtotal = processedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
+    const discountAmount = subtotal * discountRate;
+    const finalAmount = subtotal - discountAmount + deliveryCharge;
+
     const orderData = {
       userId,
       items: processedItems,
       address,
-      amount,
+      subtotal,
+      discountAmount,
+      deliveryCharge,
+      finalAmount,
       paymentMethod: "COD",
       payment: false,
       date: Date.now()
@@ -627,13 +809,13 @@ const placeOrder = async (req, res) => {
   }
 };
 
-// Placing orders using Stripe Method
+// Stripe Order Placement
 const placeOrderStripe = async (req, res) => {
   try {
-    const { userId, items, amount, address } = req.body;
+    const { userId, items, address } = req.body;
     const { origin } = req.headers;
 
-    const processedItems = items.map((item) => ({
+    const processedItems = items.map(item => ({
       productId: item.productId,
       name: item.name,
       price: item.price,
@@ -643,11 +825,18 @@ const placeOrderStripe = async (req, res) => {
       color: item.color
     }));
 
+    const subtotal = processedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
+    const discountAmount = subtotal * discountRate;
+    const finalAmount = subtotal - discountAmount + deliveryCharge;
+
     const orderData = {
       userId,
       items: processedItems,
       address,
-      amount,
+      subtotal,
+      discountAmount,
+      deliveryCharge,
+      finalAmount,
       paymentMethod: "Stripe",
       payment: false,
       date: Date.now()
@@ -656,23 +845,19 @@ const placeOrderStripe = async (req, res) => {
     const newOrder = new orderModel(orderData);
     await newOrder.save();
 
-    const line_items = processedItems.map((item) => ({
+    const line_items = processedItems.map(item => ({
       price_data: {
-        currency: currency,
-        product_data: {
-          name: item.name
-        },
-        unit_amount: item.discountedPrice * 100
+        currency,
+        product_data: { name: item.name },
+        unit_amount: Math.round(item.discountedPrice * 100)
       },
       quantity: item.quantity
     }));
 
     line_items.push({
       price_data: {
-        currency: currency,
-        product_data: {
-          name: 'Delivery Charges'
-        },
+        currency,
+        product_data: { name: "Delivery Charges" },
         unit_amount: deliveryCharge * 100
       },
       quantity: 1
@@ -682,7 +867,7 @@ const placeOrderStripe = async (req, res) => {
       success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
       cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
       line_items,
-      mode: 'payment',
+      mode: "payment"
     });
 
     res.json({ success: true, session_url: session.url });
@@ -692,10 +877,9 @@ const placeOrderStripe = async (req, res) => {
   }
 };
 
-// Verify Stripe 
+// Verify Stripe
 const verifyStripe = async (req, res) => {
   const { orderId, success, userId } = req.body;
-
   try {
     if (success === "true") {
       await orderModel.findByIdAndUpdate(orderId, { payment: true });
@@ -711,7 +895,7 @@ const verifyStripe = async (req, res) => {
   }
 };
 
-// All Orders data for Admin Panel
+// Admin: Get All Orders
 const allOrders = async (req, res) => {
   try {
     const orders = await orderModel.find({});
@@ -722,7 +906,7 @@ const allOrders = async (req, res) => {
   }
 };
 
-// User Order Data For Frontend
+// User: Get My Orders
 const userOrders = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -734,12 +918,12 @@ const userOrders = async (req, res) => {
   }
 };
 
-// Update order status from Admin Panel
+// Admin: Update Order Status
 const updateStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
     await orderModel.findByIdAndUpdate(orderId, { status });
-    res.json({ success: true, message: 'Status Updated' });
+    res.json({ success: true, message: "Status Updated" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -747,9 +931,9 @@ const updateStatus = async (req, res) => {
 };
 
 export {
-  verifyStripe,
   placeOrder,
   placeOrderStripe,
+  verifyStripe,
   allOrders,
   userOrders,
   updateStatus
