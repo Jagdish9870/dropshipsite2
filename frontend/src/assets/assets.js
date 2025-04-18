@@ -55,6 +55,7 @@ import p_img51 from './p_img51.png'
 import p_img52 from './p_img52.png'
 
 import hero from './hero.jpeg'
+import payU_logo from './payU_logo.png'
 import logo2 from './logo2.png'
 import about from './about.png'
 import logo from './logo.png'
@@ -82,6 +83,7 @@ export const assets = {
     hero,
     about,
     hero_img,
+    payU_logo,
     cart_icon,
     dropdown_icon,
     exchange_icon,

@@ -789,7 +789,7 @@ const PlaceOrder = () => {
           <div className='flex gap-3 flex-col lg:flex-row'>
             <div onClick={() => setMethod('stripe')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
               <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-400' : ''}`}></p>
-              <img className='h-5 mx-4' src={assets.stripe_logo} alt="" />
+              <img className='h-5 mx-4' src={assets.payU_logo} alt="" />
             </div>
 
             {/* COD Disabled */}
