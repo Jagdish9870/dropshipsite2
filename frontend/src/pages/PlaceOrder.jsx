@@ -83,6 +83,53 @@ const PlaceOrder = () => {
           }
           break;
 
+          case "payu":
+            try {
+              const responsePayU = await axios.post(
+                backendUrl + "/api/order/payu",
+                orderData,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+  
+              console.log("responsePayU", responsePayU);
+  
+              if (responsePayU.data.success) {
+                const { action, params } = responsePayU.data;
+  
+                // Log PayU params before redirection
+                window.payuDebugData = { action, params };
+                console.log("PayU data stored in window.payuDebugData");
+  
+                // Create a form and submit to PayU
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = action;
+  
+                Object.entries(params).forEach(([key, value]) => {
+                  const input = document.createElement("input");
+                  input.type = "hidden";
+                  input.name = key;
+                  input.value = value;
+                  form.appendChild(input);
+                });
+  
+                document.body.appendChild(form);
+  
+                // 🔁 Uncomment the next line to allow redirection to PayU
+                form.submit();
+              } else {
+                toast.error(responsePayU.data.message);
+              }
+            } catch (error) {
+              console.error("PayU order error:", error);
+              toast.error("Something went wrong with PayU payment.");
+            }
+            break;
+
         case 'cod':
           toast.error("Cash on Delivery is currently unavailable.");
           break;
@@ -130,6 +177,11 @@ const PlaceOrder = () => {
           <div className='flex gap-3 flex-col lg:flex-row'>
             <div onClick={() => setMethod('stripe')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
               <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-400' : ''}`}></p>
+              <img className='h-5 mx-4' src={assets.payU_logo} alt="" />
+            </div>
+
+            <div onClick={() => setMethod('payu')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'payu' ? 'bg-green-400' : ''}`}></p>
               <img className='h-5 mx-4' src={assets.payU_logo} alt="" />
             </div>
 
