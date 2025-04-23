@@ -1,4 +1,3 @@
-import React from 'react'
 import Title from '../components/Title'
 import { assets } from '../assets/assets'
 import NewsletterBox from '../components/NewsletterBox'
@@ -17,7 +16,7 @@ const About = () => {
               <p>Wills Thrills was born out of a passion for innovation and a vision to redefine the way people explore and experience electronic products online. Our journey began with a clear goal: to create a platform where technology enthusiasts can effortlessly discover, compare, and purchase the latest gadgets and devices—all in one place..</p>
               <p>Since day one, we’ve been committed to curating a dynamic selection of cutting-edge electronics that cater to every need and lifestyle. From smart home solutions and mobile accessories to wearables and entertainment systems, our collection features high-quality products sourced from trusted global brands and emerging tech innovators..</p>
               <b className='text-gray-800'>Our Mission</b>
-              <p>At Wills Thrills, our mission is to empower customers with access to the newest technology, paired with the convenience and confidence of a seamless shopping experience. We're dedicated to making the world of electronics more accessible, enjoyable, and future-forward—from your first click to the moment your device arrives.</p>
+              <p>At Wills Thrills, our mission is to empower customers with access to the newest technology, paired with the convenience and confidence of a seamless shopping experience. We are dedicated to making the world of electronics more accessible, enjoyable, and future-forward—from your first click to the moment your device arrives.</p>
           </div>
       </div>
 

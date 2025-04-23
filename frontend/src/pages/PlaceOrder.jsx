@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/assets'
@@ -9,11 +9,9 @@ import { toast } from 'react-toastify'
 const PlaceOrder = () => {
   const [method, setMethod] = useState('stripe'); // Default set to 'stripe'
   const {
-    navigate,
     backendUrl,
     token,
     cartItems,
-    setCartItems,
     getCartAmount,
     delivery_fee,
     products
@@ -72,26 +70,27 @@ const PlaceOrder = () => {
 
       switch (method) {
         case 'stripe':
-          const responseStripe = await axios.post(`${backendUrl}/api/order/stripe`, orderData, {
-            headers: { token }
-          });
-          if (responseStripe.data.success) {
-            const { session_url } = responseStripe.data;
-            window.location.replace(session_url);
-          } else {
-            toast.error(responseStripe.data.message);
-          }
+          // const responseStripe = await axios.post(`${backendUrl}/api/order/stripe`, orderData, {
+          //   headers: { token }
+          // });
+          // if (responseStripe.data.success) {
+          //   const { session_url } = responseStripe.data;
+          //   window.location.replace(session_url);
+          // } else {
+          //   toast.error(responseStripe.data.message);
+          // }
           break;
 
           case "payu":
+            console.log("hello");
+            
             try {
               const responsePayU = await axios.post(
                 backendUrl + "/api/order/payu",
                 orderData,
                 {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
+                  headers: {token},
+                  
                 }
               );
   
@@ -118,6 +117,8 @@ const PlaceOrder = () => {
                 });
   
                 document.body.appendChild(form);
+                console.log("Form created and appended to body:", form);
+                
   
                 // 🔁 Uncomment the next line to allow redirection to PayU
                 form.submit();
@@ -175,9 +176,9 @@ const PlaceOrder = () => {
         <div className='mt-12'>
           <Title text1={'PAYMENT'} text2={'METHOD'} />
           <div className='flex gap-3 flex-col lg:flex-row'>
-            <div onClick={() => setMethod('stripe')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
+            <div onClick={() => setMethod('stripe')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer hidden'>
               <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-400' : ''}`}></p>
-              <img className='h-5 mx-4' src={assets.payU_logo} alt="" />
+              <img className='h-5 mx-4' src={assets.stripe_logo} alt="" />
             </div>
 
             <div onClick={() => setMethod('payu')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>

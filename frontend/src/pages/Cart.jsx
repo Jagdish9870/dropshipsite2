@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import { assets } from '../assets/assets';
 import { toast } from 'react-toastify';
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } = useContext(ShopContext);
+  const { products, currency, cartItems, updateQuantity, navigate,deleteItemFromCart} = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
   const [promoCode, setPromoCode] = useState('');
@@ -111,7 +111,7 @@ const Cart = () => {
                 defaultValue={item.quantity}
               />
               <img
-                onClick={() => updateQuantity(item._id, item.color, 0)}
+                onClick={() => deleteItemFromCart(item._id, item.color, 0)}
                 className='w-4 mr-4 sm:w-5 cursor-pointer'
                 src={assets.bin_icon}
                 alt='delete'

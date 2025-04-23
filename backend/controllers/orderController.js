@@ -1,6 +1,7 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import Stripe from 'stripe';
+import crypto from 'crypto';
 
 const currency = 'inr';
 const deliveryCharge = 100;
@@ -138,6 +139,148 @@ const verifyStripe = async (req, res) => {
   }
 };
 
+const placeOrderPayU = async (req, res) => {
+  try {
+    const {
+      userId,
+      items,
+      amount,
+      discount,
+      delivery_fee,
+      final_amount,
+      address,
+      paymentMethod
+    } = req.body;
+
+    const origin = req.headers.origin || "http://localhost:5173";
+    console.log("origin", origin);
+    console.log("req.body", req.body);
+
+    // Prepare order data
+    const orderData = {
+      userId,
+      items,
+      address,
+      amount,
+      discount,
+      delivery_fee,
+      final_amount,
+      paymentMethod,
+      payment: false,
+      date: Date.now()
+    };
+
+    // Save order to get ID
+    const newOrder = new orderModel(orderData);
+    await newOrder.save();
+
+    const txnid = newOrder._id.toString(); // Use actual order ID as txnid
+    const productinfo = "Order Payment";
+    const firstname = address.firstName || "Customer";
+    const email = address.email || "customer@example.com";
+    const phone = address.phone || "0000000000";
+    const amountStr = Number(final_amount).toFixed(2); // e.g. "1418.40"
+
+    const surl = `${origin}/verify?success=true&orderId=${txnid}`;
+    const furl = `${origin}/verify?success=false&orderId=${txnid}`;
+
+    const key = process.env.PAYU_MERCHANT_KEY;
+    const salt = process.env.PAYU_MERCHANT_SALT;
+
+    // Hash format: key|txnid|amount|productinfo|firstname|email|||||||||||salt
+    const hashString = `${key}|${txnid}|${amountStr}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
+    const hash = crypto.createHash("sha512").update(hashString).digest("hex");
+
+    console.log("Hash String Used:", hashString);
+    console.log("PayU Hash:", hash);
+
+    // Params to send to frontend
+    const payuParams = {
+      key,
+      txnid,
+      amount: amountStr,
+      productinfo,
+      firstname,
+      email,
+      phone,
+      surl,
+      furl,
+      hash,
+      service_provider: "payu_paisa"
+    };
+
+    res.json({
+      success: true,
+      action: "https://secure.payu.in/_payment",
+      params: payuParams
+    });
+
+  } catch (error) {
+    console.error("PayU Order Error:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+  
+  // const verifyPayU = async (req, res) => {
+  //   const { mihpayid, txnid, status } = req.body;
+  
+  //   try {
+  //     const orderId = txnid;
+  
+  //     if (status === "success") {
+  //       await orderModel.findByIdAndUpdate(orderId, { payment: true });
+  //       res.redirect(`/verify?success=true&orderId=${orderId}`);
+  //     } else {
+  //       await orderModel.findByIdAndDelete(orderId);
+  //       res.redirect(`/verify?success=false&orderId=${orderId}`);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.redirect(
+  //       `/verify?success=false&error=${encodeURIComponent(error.message)}`
+  //     );
+  //   }
+  // };
+
+  const verifyPayU = async (req, res) => {
+    const { txnid, status } = req.body;
+  
+    try {
+      // Find order using txnid (assuming txnid was saved as a field in your order)
+      const order = await orderModel.findOne({ _id : Object(txnid) });
+  
+      console.log("hello", order);
+      
+      if (!order) {
+        return res.redirect(`http://localhost:5173/verify?success=false&orderId=${txnid}`);
+      }
+  
+      const orderId = order._id;
+  
+      if (status === "success") {
+        order.payment = true;
+        await order.save();
+        // res.redirect(`http://localhost:5173/verify?success=true&orderId=${orderId}`);
+        res.json({ success: true, orderId });
+      } else {
+        // await orderModel.findByIdAndDelete(orderId);
+        // res.redirect(`http://localhost:5173/verify?success=false&orderId=${orderId}`);
+        res.json({ success: false, orderId });
+      }
+    } catch (error) {
+      console.log("Payment Verification Error:", error);
+      // res.redirect(
+      //   `http://localhost:5173/verify?success=false&error=${encodeURIComponent(error.message)}`
+      // );
+      res.json({ success: false, message: error.message });
+
+    }
+  };
+  
+
 // Admin: Get All Orders
 const allOrders = async (req, res) => {
   try {
@@ -179,5 +322,7 @@ export {
   verifyStripe,
   allOrders,
   userOrders,
-  updateStatus
+  updateStatus,
+  verifyPayU,
+  placeOrderPayU
 };
