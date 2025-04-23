@@ -232,7 +232,8 @@ const placeOrderPayU = async (req, res) => {
       console.log("hello", order);
       
       if (!order) {
-        return res.redirect(`http://localhost:5173/verify?success=false&orderId=${txnid}`);
+      res.json({ success: false, message: error.message });
+      return;
       }
   
       const orderId = order._id;
