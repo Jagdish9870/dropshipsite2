@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { backendUrl, currency } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets';
 
-const Orders = ({ token }) => {
+const Orders = ( token ) => {
   const [orders, setOrders] = useState([]);
 
   const fetchAllOrders = async () => {
@@ -86,17 +86,17 @@ const Orders = ({ token }) => {
             {/* Updated amount breakdown */}
             <div className="text-sm sm:text-[15px] space-y-1 border border-gray-300 rounded-xl p-2 bg-gray-50">
               <p>
-                Subtotal: <span className="float-right">{currency}{order.subtotal?.toFixed(2)}</span>
+                Subtotal: <span className="float-right">{currency}{order.amount?.toFixed(2)}</span>
               </p>
               <p>
-                Discount: <span className="float-right text-green-600">-{currency}{order.discountAmount?.toFixed(2)}</span>
+                Discount: <span className="float-right text-green-600">-{currency}{order.discount?.toFixed(2)}</span>
               </p>
               <p>
-                Delivery: <span className="float-right">{currency}{order.deliveryCharge?.toFixed(2)}</span>
+                Delivery: <span className="float-right">{currency}{order.delivery_fee?.toFixed(2)}</span>
               </p>
               <hr className="my-1" />
               <p className="font-semibold">
-                Total: <span className="float-right">{currency}{order.finalAmount?.toFixed(2)}</span>
+                Total: <span className="float-right">{currency}{order.final_amount?.toFixed(2)}</span>
               </p>
             </div>
 

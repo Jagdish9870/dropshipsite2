@@ -7,14 +7,15 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
     const currency = '₹';
-    const delivery_fee = 0;
+    const delivery_fee = 100;
+    const [discount,setDiscount] = useState(0) ;
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const [cartItems, setCartItems] = useState(localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')) : {});    
     const [products, setProducts] = useState([]);
     const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '');
-    const [discount, setDiscount] = useState(0);
+    // const [discount, setDiscount] = useState(0);
     const navigate = useNavigate();
 
     const addToCart = async (itemId, color) => {
@@ -28,7 +29,7 @@ const ShopContextProvider = (props) => {
                 const response = await axios.post(backendUrl + '/api/cart/add', { itemId, color }, { headers: { token } });
                 if (response.data.success) {
                     setCartItems(response.data.cartData);
-                    toast.success('Added to cart');
+                    // toast.success('Added to cart');
                 } else {
                     toast.error(response.data.message);
                 }
@@ -111,15 +112,6 @@ const ShopContextProvider = (props) => {
             }
         }
 
-        // Apply flat or percentage discount
-        if (typeof discount === 'number') {
-            if (discount < 1) {
-                totalAmount = totalAmount - totalAmount * discount;
-            } else {
-                totalAmount = totalAmount - discount;
-            }
-        }
-
         return totalAmount;
     };
 
@@ -174,7 +166,7 @@ const ShopContextProvider = (props) => {
         cartItems, addToCart, setCartItems,
         getCartCount, updateQuantity,
         getCartAmount, navigate, backendUrl,
-        setToken, token, discount, setDiscount,deleteItemFromCart
+        setToken, token,deleteItemFromCart,discount,setDiscount
     };
 
     return (

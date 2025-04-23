@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('stripe'); // Default set to 'stripe'
+    let {discount} = useContext(ShopContext);
+  
   const {
     backendUrl,
     token,
@@ -35,9 +37,7 @@ const PlaceOrder = () => {
     setFormData((data) => ({ ...data, [name]: value }));
   };
 
-  const discountRate = 0.2;
   const subtotal = getCartAmount();
-  const discount = subtotal * discountRate;
   const finalAmount = subtotal - discount + delivery_fee;
 
   const onSubmitHandler = async (event) => {
@@ -170,7 +170,7 @@ const PlaceOrder = () => {
 
       <div className='mt-8'>
         <div className='mt-8 min-w-80'>
-          <CartTotal discount={discountRate} />
+          <CartTotal />
         </div>
 
         <div className='mt-12'>

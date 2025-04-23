@@ -5,7 +5,7 @@ import { assets } from '../assets/assets';
 import { toast } from 'react-toastify';
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate,deleteItemFromCart} = useContext(ShopContext);
+  const { products, currency, cartItems, updateQuantity, navigate,deleteItemFromCart,setDiscount,discount} = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
   const [promoCode, setPromoCode] = useState('');
@@ -60,11 +60,10 @@ const Cart = () => {
   const subtotal = getSubtotal();
   const shipping = 100;
 
-  let discount = 0;
   if (discountType === 'flat') {
-    discount = discountValue;
+      setDiscount(discountValue);    
   } else if (discountType === 'percentage') {
-    discount = (discountValue / 100) * subtotal;
+    setDiscount((discountValue / 100) * subtotal);
   }
 
   const total = subtotal + shipping - discount;
