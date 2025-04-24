@@ -1,6 +1,7 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
+import PropTypes from 'prop-types';
+
 
 const Sidebar = () => {
   return (
@@ -27,5 +28,9 @@ const Sidebar = () => {
     </div>
   )
 }
+
+Sidebar.propTypes = {
+    setToken: PropTypes.func.isRequired,
+  };
 
 export default Sidebar

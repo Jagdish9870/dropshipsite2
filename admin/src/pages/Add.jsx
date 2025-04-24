@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {assets} from '../assets/assets'
 import axios from 'axios'
 import { backendUrl } from '../App'
 import { toast } from 'react-toastify'
+import PropTypes from 'prop-types';
+
 
 const Add = ({token}) => {
 
@@ -157,5 +159,9 @@ const Add = ({token}) => {
     </form>
   )
 }
+
+Add.propTypes = {
+  token: PropTypes.func.isRequired,
+};
 
 export default Add

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { backendUrl, currency } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets';
+import PropTypes from 'prop-types';
+
 
 const Orders = ( token ) => {
   const [orders, setOrders] = useState([]);
@@ -116,6 +118,10 @@ const Orders = ( token ) => {
       </div>
     </div>
   );
+};
+
+Orders.propTypes = {
+  token: PropTypes.func.isRequired,
 };
 
 export default Orders;
