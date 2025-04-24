@@ -6,7 +6,7 @@ import { assets } from '../assets/assets';
 import PropTypes from 'prop-types';
 
 
-const Orders = ( token ) => {
+const Orders = ( {token} ) => {
   const [orders, setOrders] = useState([]);
 
   const fetchAllOrders = async () => {
