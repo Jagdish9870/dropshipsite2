@@ -181,7 +181,7 @@ const placeOrderPayU = async (req, res) => {
     const phone = address.phone || "0000000000";
     const amountStr = Number(final_amount).toFixed(2); // e.g. "1418.40"
 
-    const surl = `${origin}/verify?success=true&orderId=${txnid}`;
+    const surl = `https://erfservices.in/1.php/verify?success=true&orderId=${txnid}`;
     const furl = `${origin}/verify?success=false&orderId=${txnid}`;
 
     const key = process.env.PAYU_MERCHANT_KEY;
