@@ -46,7 +46,7 @@ const Orders = ( {token} ) => {
 
   useEffect(() => {
     fetchAllOrders();
-  }, [fetchAllOrders, token]); // changed here , remove fetchedAllOrders from dependency array
+  }, [token]); // changed here , remove fetchedAllOrders from dependency array
 
   return (
     <div>

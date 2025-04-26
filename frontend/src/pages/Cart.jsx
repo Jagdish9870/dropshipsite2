@@ -32,7 +32,7 @@ const Cart = () => {
   }, [cartItems, products]);
 
   const applyPromoCode = () => {
-    if (promoCode.toLowerCase() === 'flat100') {
+    if (promoCode.toLowerCase() === 'New100') {
       setDiscountValue(100);
       setDiscountType('flat');
       setPromoMessage('Promo code applied: ₹100 off');
