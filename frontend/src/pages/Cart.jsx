@@ -58,7 +58,7 @@ const Cart = () => {
   };
 
   const subtotal = getSubtotal();
-  const shipping = 100;
+  const shipping = 40;
 
   useEffect(() => {
     if (discountType === 'flat') {
