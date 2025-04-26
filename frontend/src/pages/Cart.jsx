@@ -60,11 +60,13 @@ const Cart = () => {
   const subtotal = getSubtotal();
   const shipping = 100;
 
-  if (discountType === 'flat') {
-      setDiscount(discountValue);    
-  } else if (discountType === 'percentage') {
-    setDiscount((discountValue / 100) * subtotal);
-  }
+  useEffect(() => {
+    if (discountType === 'flat') {
+      setDiscount(discountValue);
+    } else if (discountType === 'percentage') {
+      setDiscount((discountValue / 100) * subtotal);
+    }
+  }, [discountType, discountValue, subtotal]);
 
   const total = subtotal + shipping - discount;
 
@@ -146,7 +148,7 @@ const Cart = () => {
             </div>
 
             <datalist id='promoCodes'>
-              <option value='FLAT100' />
+              <option value='New100' />
               <option value='SAVE20' />
             </datalist>
 
