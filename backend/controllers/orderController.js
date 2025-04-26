@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import crypto from 'crypto';
 
 const currency = 'inr';
-const deliveryCharge = 100;
+const deliveryCharge = 40;
 const discountRate = 0.2;
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
