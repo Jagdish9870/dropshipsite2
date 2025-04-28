@@ -91,9 +91,9 @@ const Product = () => {
             <img src={assets.star_dull_icon} alt="" className="w-3.5" />
             <p className='pl-2'>(122)</p>
             {/* People bought today */}
-         <div className="text-sm">
-             <span className="text-green-600 font-bold">99+</span> people bought today
-         </div>
+            <div className="glow-badge">
+             <span style={{ color: 'limegreen', fontWeight: 'bold' }}>99+</span> people bought today
+          </div>
           </div>
           <p className='mt-5 text-3xl font-medium'>{currency}{productData.price}</p>
           <p className='mt-5 text-gray-500 md:w-4/5'>{productData.description}</p>
