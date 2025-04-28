@@ -92,16 +92,16 @@ const Product = () => {
             <p className='pl-2'>(122)</p>
             {/* People bought today */}
             <div style={{ 
-    backgroundColor: '#1c1c1c', 
-    padding: '4px 8px', 
+    backgroundColor: '#f0f0f0', 
+    padding: '6px 10px', 
     borderRadius: '6px', 
-    color: 'white', 
+    color: '#333', 
     fontSize: '14px',
     display: 'flex',
     alignItems: 'center',
     gap: '4px'
   }}>
-    <span style={{ color: 'limegreen', fontWeight: 'bold' }}>99+</span> people bought today
+    <span style={{ color: 'green', fontWeight: 'bold' }}>99+</span> people bought today
   </div>
           </div>
           <p className='mt-5 text-3xl font-medium'>{currency}{productData.price}</p>
