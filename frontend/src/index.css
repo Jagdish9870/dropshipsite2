@@ -54,28 +54,4 @@ a.active hr{
     100% { opacity: 1; }
   }
   
-  .glow-badge {
-    background-color: #1c1c1c;
-    padding: 4px 8px;
-    border-radius: 6px;
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    animation: pulseGlow 2s infinite;
-  }
-  
-  /* Glow animation */
-  @keyframes pulseGlow {
-    0% {
-      box-shadow: 0 0 5px limegreen;
-    }
-    50% {
-      box-shadow: 0 0 15px limegreen;
-    }
-    100% {
-      box-shadow: 0 0 5px limegreen;
-    }
-  }
   
