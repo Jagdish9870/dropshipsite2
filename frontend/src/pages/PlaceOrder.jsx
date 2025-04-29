@@ -16,7 +16,7 @@ const PlaceOrder = () => {
     cartItems,
     getCartAmount,
     delivery_fee,
-    products
+    products,setCartItems
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
@@ -131,8 +131,25 @@ const PlaceOrder = () => {
             }
             break;
 
+        // case 'cod':
+        //   toast.error("Cash on Delivery is currently unavailable.");
+        //   break;
+
         case 'cod':
-          toast.error("Cash on Delivery is currently unavailable.");
+          try {
+            const response = await axios.post(`${backendUrl}/api/order/place`, orderData, {
+              headers: { token }
+            });
+            if (response.data.success) {
+              setCartItems({});
+              localStorage.removeItem('cart');
+              toast.success('Order placed successfully!');
+              setTimeout(() => window.location.replace('/orders'), 1000);
+            }
+          } catch (error) {
+            console.log(error);
+            toast.error(error.message);            
+          }
           break;
 
         default:
@@ -186,10 +203,16 @@ const PlaceOrder = () => {
               <img className='h-5 mx-4' src={assets.payU_logo} alt="" />
             </div>
 
-            {/* COD Disabled */}
+            {/* COD Disabled
             <div className='flex items-center gap-3 border p-2 px-3 opacity-50 cursor-pointer'>
               <p className='min-w-3.5 h-3.5 border rounded-full'></p>
               <p className='text-gray-400 text-sm font-medium mx-4 line-through'>CASH ON DELIVERY</p>
+            </div> */}
+
+              {/* cod enable code */}
+          <div onClick={() => setMethod('cod')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'cod' ? 'bg-green-400' : ''}`}></p>
+              <p className='text-gray-500 text-sm font-medium mx-4'>CASH ON DELIVERY</p>
             </div>
           </div>
 

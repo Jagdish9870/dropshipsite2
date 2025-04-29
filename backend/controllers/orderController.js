@@ -15,7 +15,9 @@ const placeOrder = async (req, res) => {
     const { userId, items, address } = req.body;
 
     const processedItems = items.map(item => ({
-      productId: item.productId,
+      productId: item._id,
+      color: item.color,
+      finalPrice: item.finalPrice,
       name: item.name,
       price: item.price,
       discountedPrice: item.discountedPrice || item.price,
