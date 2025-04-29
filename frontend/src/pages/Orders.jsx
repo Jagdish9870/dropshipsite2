@@ -27,7 +27,7 @@ const Orders = () => {
             item['date'] = order.date;
 
             // Ensure discountedPrice fallback logic here too
-            item['unitPrice'] = item.discountedPrice || item.price;
+            item['unitPrice'] = item.price;
 
             allOrdersItem.push(item);
           });
@@ -51,7 +51,7 @@ const Orders = () => {
 
       <div>
         {orderData.map((item, index) => {
-          const total = item.final_amount * item.quantity;
+          const total = item.unitPrice * item.quantity;
 
           return (
             <div
