@@ -52,7 +52,7 @@ const PlaceOrder = () => {
             if (itemInfo) {
               itemInfo.color = item;
               itemInfo.quantity = cartItems[items][item];
-              itemInfo.discountedPrice = itemInfo.price - (itemInfo.price * discount / 100);
+              itemInfo.discountedPrice = discount;
               itemInfo.finalPrice = itemInfo.discountedPrice + delivery_fee;
               orderItems.push(itemInfo);
             }

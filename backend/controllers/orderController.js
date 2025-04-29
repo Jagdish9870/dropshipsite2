@@ -5,7 +5,6 @@ import crypto from 'crypto';
 
 const currency = 'inr';
 const deliveryCharge = 40;
-const discountRate = 0.2;
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -27,15 +26,15 @@ const placeOrder = async (req, res) => {
     }));
 
     const subtotal = processedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
-    const discountAmount = subtotal * discountRate;
-    const finalAmount = subtotal - discountAmount + deliveryCharge;
+
+    const finalAmount = subtotal - processedItems.discountedPrice + deliveryCharge;
 
     const orderData = {
       userId,
       items: processedItems,
       address,
       amount : subtotal,
-      discount : discountAmount,
+      discount : processedItems.discountedPrice,
       delivery_fee : deliveryCharge,
       final_amount : finalAmount,
       paymentMethod: "COD",
