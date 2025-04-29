@@ -25,7 +25,7 @@ const placeOrder = async (req, res) => {
       color: item.color
     }));
 
-    const subtotal = processedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0);
+    const subtotal = processedItems.reduce((sum, item) => sum + item.finalPrice * item.quantity, 0);
 
     const finalAmount = subtotal - processedItems[0].discountedPrice + deliveryCharge;
 
