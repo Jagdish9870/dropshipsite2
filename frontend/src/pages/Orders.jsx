@@ -51,7 +51,7 @@ const Orders = () => {
 
       <div>
         {orderData.map((item, index) => {
-          const total = item.unitPrice * item.quantity;
+          const total = item.final_amount * item.quantity;
 
           return (
             <div
